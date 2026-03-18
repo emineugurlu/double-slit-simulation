@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Double-Slit Experiment Simulation</title>
+ <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+
+  <div class="container">
+
+    <div class="lab-panel">
+      <div class="panel-header">EXPERIMENT SETUP</div>
+      <canvas id="simCanvas"></canvas>
+      <div class="controls">
+        <div class="ctrl-group">
+          <span class="ctrl-label">DETECTOR</span>
+          <div class="toggle" id="detToggle" onclick="toggleDetector()">
+            <div class="toggle-knob"></div>
+          </div>
+          <span class="status-badge" id="detStatus">OFF</span>
+        </div>
+        <div class="ctrl-group" id="strGroup">
+          <span class="ctrl-label">DETECTOR STRENGTH</span>
+          <input type="range" id="strSlider" min="0" max="100" value="0" step="1"
+            oninput="updateStrength(this.value)">
+          <span class="val" id="strVal">0</span>
+        </div>
+        <div class="ctrl-group">
+          <span class="ctrl-label">FIRE RATE</span>
+          <input type="range" id="speedSlider" min="1" max="5" value="2" step="1"
+            oninput="updateSpeed(this.value)">
+          <span class="val" id="speedVal">2</span>
+        </div>
+        <button class="reset-btn" onclick="resetSim()">RESET</button>
+      </div>
+    </div>
+
+    <div class="info-panel">
+      <div class="panel-header">EXPERIMENT INFO</div>
+
+      <div class="info-section">
+        <div class="info-title">WHAT IS THIS EXPERIMENT?</div>
+        <div class="info-body">
+          The double-slit experiment reveals one of quantum mechanics'
+          most striking phenomena. When unobserved, electrons behave as
+          <strong>waves</strong> — passing through both slits simultaneously
+          and creating an <strong>interference pattern</strong>.
+        </div>
+      </div>
+
+      <div class="info-section">
+        <div class="info-title" id="behaviorTitle">WAVE BEHAVIOR</div>
+        <div class="info-body" id="behaviorText">
+          Detector <strong>off</strong>: The electron passes through both slits
+          at once and interferes with itself. Multiple bright and dark fringes
+          appear on the screen — proof that the electron exists as a
+          <strong>wave function</strong>.
+        </div>
+      </div>
+
+      <div class="info-section">
+        <div class="info-title warn">HEISENBERG UNCERTAINTY PRINCIPLE</div>
+        <div class="info-body">
+          The more precisely we measure a particle's position, the less
+          we know about its momentum. When the detector is turned on,
+          the wave function <strong>collapses</strong> and the electron
+          behaves like a classical particle.
+        </div>
+      </div>
+
+      <div class="info-section">
+        <div class="info-title stat-title">STATISTICS</div>
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-val" id="statTotal">0</div>
+            <div class="stat-label">TOTAL ELECTRONS</div>
+          </div>
+          <div class="stat">
+            <div class="stat-val" id="statMode">WAVE</div>
+            <div class="stat-label">MODE</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="simulation.js"></script>
+</body>
+</html>
