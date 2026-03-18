@@ -83,9 +83,10 @@ function updateElectrons() {
       }
 
       if (e.passedBarrier) {
-        const progress = Math.min((e.x - e.barrierX) / (SCREEN_X() - e.barrierX), 1);
-        e.y = e.startY + (e.finalY - e.startY) * progress;
-      }
+  const progress = Math.min((e.x - e.barrierX) / (SCREEN_X() - e.barrierX), 1);
+  const eased = progress * progress * (3 - 2 * progress);
+  e.y = e.startY + (e.finalY - e.startY) * eased;
+}
 
       if (e.x >= SCREEN_X()) {
         e.phase = 'hit';
