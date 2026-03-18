@@ -156,3 +156,49 @@ input[type=range] {
 .info-body strong {
   color: #ff6090;
 }
+
+.stats {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.stat {
+  flex: 1;
+  background: #0a0a1e;
+  border: 1px solid #1a0a2a;
+  border-radius: 6px;
+  padding: 8px;
+  text-align: center;
+}
+
+.stat-val {
+  font-size: 18px;
+  font-weight: 500;
+  color: #40ffcc;
+}
+
+.stat-label {
+  font-size: 9px;
+  color: #3a2a4a;
+  letter-spacing: 1px;
+  margin-top: 2px;
+}
+
+.reset-btn {
+  font-size: 10px;
+  letter-spacing: 1px;
+  padding: 6px 14px;
+  background: transparent;
+  border: 1px solid #3a1a5a;
+  color: #6a4a8a;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: auto;
+  transition: all 0.2s;
+}
+
+.reset-btn:hover {
+  border-color: #ff6090;
+  color: #ff6090;
+}
