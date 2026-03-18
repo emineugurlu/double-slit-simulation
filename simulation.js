@@ -68,3 +68,61 @@ function sampleHitY() {
 
   }
 }
+function fireElectron() {
+  const e = {
+    x: SOURCE_X() + 18,
+    y: H() / 2,
+    finalY: sampleHitY(),
+    phase: 'travel',
+    vx: 3.5 + fireSpeed * 1.2,
+    alpha: 1,
+    passedBarrier: false,
+    startY: H() / 2,
+    waveR: 0,
+    isWave: !detectorOn
+  };
+  electrons.push(e);
+  totalElectrons++;
+  document.getElementById('statTotal').textContent = totalElectrons;
+}
+function updateElectrons() {
+  const bx = BARRIER_X();
+  const sx = SCREEN_X();
+
+  electrons = electrons.filter(e => e.alpha > 0.05);
+
+  electrons.forEach(e => {
+
+    if (e.phase === 'travel') {
+      e.x += e.vx;
+
+      if (!e.passedBarrier && e.x >= bx) {
+        e.passedBarrier = true;
+        e.startY = e.y;
+      }
+
+      if (e.passedBarrier) {
+        const progress = Math.min(
+          (e.x - bx) / (sx - bx),
+          1
+        );
+        e.y = e.startY + (e.finalY - e.startY) * progress;
+      }
+
+      if (e.x >= sx) {
+        e.phase = 'hit';
+        e.x = sx;
+        screenHits.push(e.y);
+        if (screenHits.length > 2000) screenHits.shift();
+      }
+    }
+
+    if (e.phase === 'hit') {
+      e.alpha -= 0.07;
+    }
+
+    if (e.isWave && !e.passedBarrier) {
+      e.waveR += 1.5;
+    }
+  });
+}
