@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Çift Yarık Deneyi</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="container">
+
+    <div class="lab-panel">
+      <div class="panel-header">DENEY DÜZENEĞİ</div>
+      <canvas id="simCanvas"></canvas>
+      <div class="controls">
+        <div class="ctrl-group">
+          <span class="ctrl-label">DEDEKTÖR</span>
+          <div class="toggle" id="detToggle" onclick="toggleDetector()">
+            <div class="toggle-knob"></div>
+          </div>
+          <span class="status-badge" id="detStatus">KAPALI</span>
+        </div>
+        <div class="ctrl-group" id="strGroup">
+          <span class="ctrl-label">DEDEKTÖR GÜCÜ</span>
+          <input type="range" id="strSlider" min="0" max="100" value="0" step="1"
+            oninput="updateStrength(this.value)">
+          <span class="val" id="strVal">0</span>
+        </div>
+        <div class="ctrl-group">
+          <span class="ctrl-label">ATIŞ HIZI</span>
+          <input type="range" id="speedSlider" min="1" max="5" value="2" step="1"
+            oninput="updateSpeed(this.value)">
+          <span class="val" id="speedVal">2</span>
+        </div>
+        <button class="reset-btn" onclick="resetSim()">SIFIRLA</button>
+      </div>
+    </div>
+
+    <div class="info-panel">
+      <div class="panel-header">DENEY BİLGİSİ</div>
+      <div class="info-section">
+        <div class="info-title">DENEY NEDİR?</div>
+        <div class="info-body">
+          Çift yarık deneyi kuantum mekaniğinin en çarpıcı olgusunu gösterir.
+          Elektronlar gözlemlenmediğinde <strong>dalga</strong> gibi davranır
+          ve iki yarıktan aynı anda geçerek bir <strong>girişim deseni</strong> oluşturur.
+        </div>
+      </div>
+      <div class="info-section">
+        <div class="info-title" id="behaviorTitle">DALGA DAVRANIŞI</div>
+        <div class="info-body" id="behaviorText">
+          Dedektör kapalıyken elektron aynı anda her iki yarıktan geçer.
+          Kendi kendisiyle girişim yapar. Ekranda çok sayıda şerit oluşur.
+        </div>
+      </div>
+      <div class="info-section">
+        <div class="info-title warn">HEİSENBERG BELİRSİZLİK İLKESİ</div>
+        <div class="info-body">
+          Bir parçacığın konumunu ne kadar kesin ölçersek, momentumunu
+          o kadar az biliriz. Dedektör açıldığında dalga fonksiyonu çöker.
+        </div>
+      </div>
+      <div class="info-section">
+        <div class="info-title stat-title">İSTATİSTİKLER</div>
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-val" id="statTotal">0</div>
+            <div class="stat-label">TOPLAM ELEKTRON</div>
+          </div>
+          <div class="stat">
+            <div class="stat-val" id="statMode">DALGA</div>
+            <div class="stat-label">MOD</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="simulation.js"></script>
+</body>
+</html>
