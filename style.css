@@ -305,3 +305,15 @@ input[type=range] {
   color: #ff6090;
   font-size: 16px;
 }
+.back-btn {
+  color: #6a4a8a;
+  text-decoration: none;
+  font-size: 10px;
+  letter-spacing: 1px;
+  margin-right: 16px;
+  transition: color 0.2s;
+}
+
+.back-btn:hover {
+  color: #ff6090;
+}

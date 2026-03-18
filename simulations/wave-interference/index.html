@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wave Interference</title>
+  <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+
+  <div class="container">
+
+    <div class="lab-panel">
+      <div class="panel-header">
+        <a href="../../index.html" class="back-btn">← BACK</a>
+        WAVE INTERFERENCE
+      </div>
+      <canvas id="simCanvas"></canvas>
+      <div class="controls">
+        <div class="ctrl-group">
+          <span class="ctrl-label">FREQUENCY</span>
+          <input type="range" id="freqSlider" min="1" max="10" value="5" step="1"
+            oninput="updateFreq(this.value)">
+          <span class="val" id="freqVal">5</span>
+        </div>
+        <div class="ctrl-group">
+          <span class="ctrl-label">AMPLITUDE</span>
+          <input type="range" id="ampSlider" min="1" max="10" value="5" step="1"
+            oninput="updateAmp(this.value)">
+          <span class="val" id="ampVal">5</span>
+        </div>
+        <div class="ctrl-group">
+          <span class="ctrl-label">SOURCE DISTANCE</span>
+          <input type="range" id="distSlider" min="20" max="200" value="80" step="1"
+            oninput="updateDist(this.value)">
+          <span class="val" id="distVal">80</span>
+        </div>
+        <button class="reset-btn" onclick="resetSim()">RESET</button>
+      </div>
+    </div>
+
+    <div class="info-panel">
+      <div class="panel-header">EXPERIMENT INFO</div>
+
+      <div class="info-section">
+        <div class="info-title">WHAT IS WAVE INTERFERENCE?</div>
+        <div class="info-body">
+          When two waves meet, they <strong>superpose</strong> — 
+          their amplitudes add together. This creates regions of 
+          <strong>constructive</strong> and <strong>destructive</strong> interference.
+        </div>
+      </div>
+
+      <div class="info-section">
+        <div class="info-title" style="color:#40ffcc;">CONSTRUCTIVE INTERFERENCE</div>
+        <div class="info-body">
+          When two wave crests meet, amplitudes <strong>add up</strong>. 
+          The result is a brighter, stronger wave. 
+          Path difference = nλ (whole number of wavelengths).
+        </div>
+      </div>
+
+      <div class="info-section">
+        <div class="info-title" style="color:#ff6090;">DESTRUCTIVE INTERFERENCE</div>
+        <div class="info-body">
+          When a crest meets a trough, they <strong>cancel out</strong>. 
+          The result is silence — zero amplitude. 
+          Path difference = (n + ½)λ.
+        </div>
+      </div>
+
+      <div class="info-section">
+        <div class="info-title" style="color:#c0a0ff;">CONNECTION TO DOUBLE-SLIT</div>
+        <div class="info-body">
+          The interference pattern in the double-slit experiment 
+          is caused by exactly this. Each slit acts as a wave source. 
+          Bright fringes = constructive. Dark fringes = destructive.
+        </div>
+      </div>
+
+      <div class="info-section">
+        <div class="info-title stat-title">PARAMETERS</div>
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-val" id="statWavelength">-</div>
+            <div class="stat-label">WAVELENGTH</div>
+          </div>
+          <div class="stat">
+            <div class="stat-val" id="statNodes">-</div>
+            <div class="stat-label">NODE LINES</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="simulation.js"></script>
+</body>
+</html>
