@@ -205,3 +205,103 @@ input[type=range] {
 .lab-panel {
   overflow: hidden;
 }
+.home-container {
+  min-height: 100vh;
+  padding: 60px 40px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.home-header {
+  margin-bottom: 60px;
+}
+
+.home-title {
+  font-size: 13px;
+  letter-spacing: 4px;
+  color: #ff6090;
+  margin-bottom: 16px;
+}
+
+.home-subtitle {
+  font-size: 14px;
+  color: #6a4a8a;
+  line-height: 1.7;
+  max-width: 500px;
+}
+
+.sim-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.sim-card {
+  background: #0d0d1e;
+  border: 1px solid #1a0a2a;
+  border-radius: 8px;
+  padding: 24px;
+  text-decoration: none;
+  display: block;
+  transition: border-color 0.2s;
+  cursor: pointer;
+}
+
+.sim-card:hover {
+  border-color: #ff6090;
+}
+
+.sim-card.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.sim-card.disabled:hover {
+  border-color: #1a0a2a;
+}
+
+.sim-card-tag {
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: #40ffcc;
+  margin-bottom: 12px;
+}
+
+.sim-card-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: #c0a0ff;
+  margin-bottom: 10px;
+}
+
+.sim-card-desc {
+  font-size: 11px;
+  color: #6a4a8a;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.sim-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sim-status {
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: #3a2a4a;
+  padding: 3px 8px;
+  border: 1px solid #1a0a2a;
+  border-radius: 3px;
+}
+
+.sim-status.active {
+  color: #40ffcc;
+  border-color: #40ffcc;
+}
+
+.sim-arrow {
+  color: #ff6090;
+  font-size: 16px;
+}
