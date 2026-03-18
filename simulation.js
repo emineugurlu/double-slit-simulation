@@ -21,3 +21,50 @@ const SCREEN_X  = () => W() * 0.82;
 const SOURCE_X  = () => W() * 0.07;
 const SLIT_GAP  = () => H() * 0.13;
 const SLIT_H    = () => H() * 0.045;
+function sampleHitY() {
+  const h = H();
+  const cy = h / 2;
+  const d = SLIT_GAP();
+  const lambda = h * 0.08;
+  const L = SCREEN_X() - BARRIER_X();
+  const s = detectorOn ? detStrength / 100 : 0;
+  if (s >= 0.98) {
+    const slit = Math.random() < 0.5 ? 1 : -1;
+    return cy + slit * d / 2 + (Math.random() - 0.5) * SLIT_H() * 4;
+    const maxY = h * 0.44;
+  let y, prob;
+  let tries = 0;
+
+  do {
+    y = cy + (Math.random() * 2 - 1) * maxY;
+
+    const dy = y - cy;
+
+    const interf = Math.pow(
+      Math.cos(Math.PI * d * dy / (lambda * L)),
+      2
+    );
+
+    const env = Math.exp(
+      -dy * dy / (2 * maxY * maxY * 0.28)
+    );
+
+    const g1 = Math.exp(
+      -Math.pow(dy - d/2, 2) / (2 * Math.pow(SLIT_H() * 2.5, 2))
+    );
+    const g2 = Math.exp(
+      -Math.pow(dy + d/2, 2) / (2 * Math.pow(SLIT_H() * 2.5, 2))
+    );
+
+    const particle = (g1 + g2) * s;
+
+    prob = (1 - s) * interf * env + particle;
+    tries++;
+
+  } while (Math.random() > prob && tries < 600);
+
+  return y;
+
+
+  }
+}
