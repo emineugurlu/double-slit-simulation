@@ -77,7 +77,7 @@ function sampleY(activeSlits) {
 
   if (detectorOn && detStrength >= 50) {
     const slit = activeSlits[0];
-    return slit.y + (Math.random() - 0.5) * SLIT_H() * 6;
+    const spread = detectorOn && detStrength >= 50 ? 10 : 2;
   }
 
   let y, prob, tries = 0;
