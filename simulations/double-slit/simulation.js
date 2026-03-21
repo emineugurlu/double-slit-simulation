@@ -61,7 +61,7 @@ function computeScreenIntensity(screenY, slits) {
 function addHit(y) {
   const yi = Math.round(y);
   if (yi < 0 || yi >= intensity.length) return;
-  const spread = 2; // Yayılmayı azaltarak desen netleştirildi
+  const spread = detectorOn && detStrength >= 50 ? 18 : 2;
   for (let i = -spread; i <= spread; i++) {
     const idx = yi + i;
     if (idx >= 0 && idx < intensity.length) {
@@ -213,29 +213,23 @@ function drawScreen() {
 
   const isParticle = detectorOn && detStrength >= 50;
 
-  if (isParticle) {
-    const slits = getSlits();
-    const sigma = SLIT_H() * 3;
-    for (let y = 0; y < H(); y++) {
-      let val = 0;
-      slits.forEach(slit => {
-        const dy = y - slit.y;
-        val += Math.exp(-(dy * dy) / (2 * sigma * sigma));
-      });
-      if (val < 0.01) continue;
-      const a = Math.min(val * 1.5, 1);
+  if (!intensity || maxIntensity === 0) {
+    ctx.fillStyle = '#3a1a5a';
+    ctx.font = '8px Courier New'; ctx.textAlign = 'center';
+    ctx.fillText('SCREEN', sx + sw/2, H() - 8);
+    return;
+  }
+
+  for (let y = 0; y < intensity.length; y++) {
+    const norm = intensity[y] / maxIntensity;
+    if (norm < 0.01) continue;
+    const a = Math.min(norm * 2, 1);
+    if (isParticle) {
       ctx.fillStyle = `rgba(64,255,204,${a})`;
-      ctx.fillRect(sx + 2, y, sw - 4, 1);
-    }
-  } else {
-    if (!intensity || maxIntensity === 0) return;
-    for (let y = 0; y < intensity.length; y++) {
-      const norm = intensity[y] / maxIntensity;
-      if (norm < 0.01) continue;
-      const a = Math.min(norm * 2, 1);
+    } else {
       ctx.fillStyle = `rgba(255,96,144,${a})`;
-      ctx.fillRect(sx + 2, y, sw - 4, 1);
     }
+    ctx.fillRect(sx + 2, y, sw - 4, 1);
   }
 
   ctx.fillStyle = '#3a1a5a';
