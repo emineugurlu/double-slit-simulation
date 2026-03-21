@@ -41,7 +41,7 @@ function getSlits() {
   ];
 }
 
-function computeScreenIntensity(screenY, slits) {
+function computeScreenIntensity(screenY, slits, currentLambda) { // Parametre eklendi
   const L  = SCREEN_X() - BARRIER_X();
   const sh = SLIT_H();
   let re = 0, im = 0;
@@ -49,7 +49,8 @@ function computeScreenIntensity(screenY, slits) {
   slits.forEach(slit => {
     const dy       = screenY - slit.y;
     const r        = Math.sqrt(L * L + dy * dy);
-    const phase    = (2 * Math.PI * r) / lambda;
+    
+    const phase    = (2 * Math.PI * r) / currentLambda; 
     const envelope = Math.exp(-(dy * dy) / (2 * H() * H() * 0.12));
     re += envelope * Math.cos(phase);
     im += envelope * Math.sin(phase);
@@ -71,19 +72,15 @@ function addHit(y) {
   }
 }
 
-function sampleY(activeSlits) {
+function sampleY(activeSlits, currentLambda) { 
   const h  = H();
   const cy = h / 2;
-
-  if (detectorOn && detStrength >= 50) {
-    const slit = activeSlits[0];
-    const spread = detectorOn && detStrength >= 50 ? 10 : 2;
-  }
 
   let y, prob, tries = 0;
   do {
     y    = cy + (Math.random() * 2 - 1) * h * 0.48;
-    prob = computeScreenIntensity(y, activeSlits) / (maxIntensity || 1);
+    
+    prob = computeScreenIntensity(y, activeSlits, currentLambda) / (maxIntensity || 1);
     tries++;
   } while (Math.random() > prob && tries < 1000);
   return y;
@@ -99,7 +96,9 @@ function fireElectron() {
     activeSlits = slits;
   }
 
-  const finalY = sampleY(activeSlits);
+  const currentLambda = 150 / (1 + fireSpeed * 0.5); 
+
+const finalY = sampleY(activeSlits, currentLambda);
   const slitY  = activeSlits[
     Math.floor(Math.random() * activeSlits.length)
   ].y;
