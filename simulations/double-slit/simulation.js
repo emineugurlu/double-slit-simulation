@@ -20,7 +20,7 @@ const W = () => canvas.width;
 const H = () => canvas.height;
 const SOURCE_X  = () => W() * 0.07;
 const BARRIER_X = () => W() * 0.45;
-const SCREEN_X  = () => W() * 0.75;
+const SCREEN_X = () => W() * 0.70;
 const SLIT_GAP  = () => H() * 0.14;
 const SLIT_H    = () => H() * 0.05;
 
@@ -36,13 +36,13 @@ function sampleHitY() {
    return cy + slit * d / 2 + (Math.random() - 0.5) * SLIT_H() * (1 + (1-s) * 8);
   }
 
-  const maxY = H() * 0.45;
+  const maxY = H() * 0.42;
   let y, prob, tries = 0;
   do {
     y = cy + (Math.random() * 2 - 1) * maxY;
     const dy = y - cy;
     const interf  = Math.pow(Math.cos(Math.PI * d * dy / (lambda * L)), 2);
-    const env     = Math.exp(-dy * dy / (2 * maxY * maxY * 0.3));
+   const env = Math.exp(-dy * dy / (2 * maxY * maxY * 0.6));
     const g1      = Math.exp(-Math.pow(dy - d/2, 2) / (2 * Math.pow(SLIT_H() * 3, 2)));
     const g2      = Math.exp(-Math.pow(dy + d/2, 2) / (2 * Math.pow(SLIT_H() * 3, 2)));
     const particle = (g1 + g2) * s;
@@ -82,7 +82,7 @@ function updateElectrons() {
         e.barrierX = BARRIER_X();
       }
 
-      if (e.passedBarrier) {
+ if (e.passedBarrier) {
   const progress = Math.min((e.x - e.barrierX) / (SCREEN_X() - e.barrierX), 1);
   const eased = progress * progress * (3 - 2 * progress);
   e.y = e.startY + (e.finalY - e.startY) * eased;
