@@ -1,5 +1,40 @@
-Physics Visualizations
-🔗 Live Demo: https://emineugurlu.github.io/double-slit-simulation/
+# Double-Slit Simulation ⚛️
+
+Do electrons really pass through **both slits at the same time**?
+
+This project is an interactive simulation of the **double-slit experiment**, demonstrating the fundamental concept of **wave–particle duality**.
+
+---
+
+## 🚀 Live Demo
+🔗 https://emineugurlu.github.io/double-slit-simulation/
+
+---
+
+## 🎮 Features
+
+- 🔬 Toggle detector → observe interference collapse  
+- ⚡ Adjustable electron emission speed  
+- 🎚️ Detector strength control  
+- 🌊 Wave & particle behavior visualization  
+- 🎨 Real-time rendering with HTML5 Canvas  
+
+---
+
+## 🧠 What You’ll Observe
+
+| Mode | Result |
+|------|--------|
+| Detector OFF | Interference pattern (wave behavior) |
+| Detector ON  | Two bands (particle behavior) |
+
+## 📖 Explanation
+
+Below is a detailed explanation of the physics behind the simulation 👇
+
+# Physics Visualizations
+
+## The Strangest Experiment in History
 
 The Strangest Experiment in History
 In 1801, Thomas Young did something simple: he shone light through two slits and looked at the screen behind them. What he saw was not two bright bands. There were dozens of thin stripes — alternating light and dark. Light was behaving like a wave, interfering with itself.
