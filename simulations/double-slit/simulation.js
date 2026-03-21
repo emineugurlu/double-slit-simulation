@@ -1,70 +1,124 @@
 const canvas = document.getElementById('simCanvas');
 const ctx = canvas.getContext('2d');
 
-let detectorOn = false;
+const W = () => canvas.width;
+const H = () => canvas.height;
+const BARRIER_X = () => W() * 0.45;
+const SCREEN_X  = () => W() * 0.70;
+const SOURCE_X  = () => W() * 0.07;
+const SLIT_GAP  = () => H() * 0.12; // Makale için biraz optimize
+const SLIT_H    = () => H() * 0.04;
+
+let detectorOn  = false;
 let detStrength = 0;
-let fireSpeed = 2;
-let electrons = [];
-let screenHits = [];
+let fireSpeed   = 3; // Elektron sayısını artırmak için hız
 let totalElectrons = 0;
-let lastFire = 0;
+let lastFire    = 0;
+let electrons   = [];
+let intensity   = null;
+let maxIntensity = 0;
+let lambda      = 25; // Dalga boyunu makale için biraz büyüttük
 
 function resize() {
-  canvas.width = canvas.parentElement.clientWidth;
+  canvas.width  = canvas.parentElement.clientWidth;
   canvas.height = window.innerHeight - 90;
+  resetIntensity();
 }
 resize();
 window.addEventListener('resize', resize);
 
-const W = () => canvas.width;
-const H = () => canvas.height;
-const SOURCE_X  = () => W() * 0.07;
-const BARRIER_X = () => W() * 0.45;
-const SCREEN_X = () => W() * 0.70;
-const SLIT_GAP  = () => H() * 0.14;
-const SLIT_H    = () => H() * 0.05;
+function resetIntensity() {
+  intensity    = new Float32Array(Math.ceil(H()));
+  maxIntensity = 0;
+}
 
-function sampleHitY() {
-  const cy = H() / 2;
-  const d  = SLIT_GAP();
+function getSlits() {
+  const cy  = H() / 2;
+  const gap = SLIT_GAP();
+  return [
+    { y: cy - gap / 2 },
+    { y: cy + gap / 2 }
+  ];
+}
+
+function computeScreenIntensity(screenY, slits) {
   const L  = SCREEN_X() - BARRIER_X();
-  const lambda = H() * 0.09;
-  const s  = detectorOn ? detStrength / 100 : 0;
+  const sh = SLIT_H();
+  let re = 0, im = 0;
 
-  if (s >= 0.5) {
-    const slit = Math.random() < 0.5 ? 1 : -1;
-   return cy + slit * d / 2 + (Math.random() - 0.5) * SLIT_H() * (1 + (1-s) * 8);
+  slits.forEach(slit => {
+    const dy       = screenY - slit.y;
+    const r        = Math.sqrt(L * L + dy * dy);
+    const phase    = (2 * Math.PI * r) / lambda;
+    const envelope = Math.exp(-(dy * dy) / (2 * H() * H() * 0.12));
+    re += envelope * Math.cos(phase);
+    im += envelope * Math.sin(phase);
+  });
+
+  return re * re + im * im;
+}
+
+function addHit(y) {
+  const yi = Math.round(y);
+  if (yi < 0 || yi >= intensity.length) return;
+  const spread = 2; // Yayılmayı azaltarak desen netleştirildi
+  for (let i = -spread; i <= spread; i++) {
+    const idx = yi + i;
+    if (idx >= 0 && idx < intensity.length) {
+      intensity[idx] += Math.exp(-(i * i) / (2 * spread * spread));
+      if (intensity[idx] > maxIntensity) maxIntensity = intensity[idx];
+    }
+  }
+}
+
+function sampleY(activeSlits) {
+  const h  = H();
+  const cy = h / 2;
+
+  if (detectorOn && detStrength >= 50) {
+    const slit = activeSlits[0];
+    return slit.y + (Math.random() - 0.5) * SLIT_H() * 6;
   }
 
-  const maxY = H() * 0.42;
   let y, prob, tries = 0;
   do {
-    y = cy + (Math.random() * 2 - 1) * maxY;
-    const dy = y - cy;
-    const interf  = Math.pow(Math.cos(Math.PI * d * dy / (lambda * L)), 2);
-   const env = Math.exp(-dy * dy / (2 * maxY * maxY * 0.6));
-    const g1      = Math.exp(-Math.pow(dy - d/2, 2) / (2 * Math.pow(SLIT_H() * 3, 2)));
-    const g2      = Math.exp(-Math.pow(dy + d/2, 2) / (2 * Math.pow(SLIT_H() * 3, 2)));
-    const particle = (g1 + g2) * s;
-    prob = (1 - s) * interf * env + particle;
+    y    = cy + (Math.random() * 2 - 1) * h * 0.48;
+    prob = computeScreenIntensity(y, activeSlits) / (maxIntensity || 1);
     tries++;
-  } while (Math.random() > prob && tries < 800);
+  } while (Math.random() > prob && tries < 1000);
   return y;
 }
 
 function fireElectron() {
+  const slits = getSlits();
+  let activeSlits;
+
+  if (detectorOn && detStrength >= 50) {
+    activeSlits = [slits[Math.random() < 0.5 ? 0 : 1]];
+  } else {
+    activeSlits = slits;
+  }
+
+  const finalY = sampleY(activeSlits);
+  const slitY  = activeSlits[
+    Math.floor(Math.random() * activeSlits.length)
+  ].y;
+
   electrons.push({
     x: SOURCE_X() + 20,
     y: H() / 2,
-    finalY: sampleHitY(),
-    vx: 3 + fireSpeed * 1.5,
+    slitY,
+    finalY,
+    vx: 3 + fireSpeed * 1.2,
     alpha: 1,
     phase: 'travel',
     passedBarrier: false,
     startY: H() / 2,
+    barrierX: BARRIER_X(),
     waveR: 0,
-    isWave: !detectorOn
+    isWave: !(detectorOn && detStrength >= 50)
   });
+
   totalElectrons++;
   document.getElementById('statTotal').textContent = totalElectrons;
 }
@@ -78,22 +132,22 @@ function updateElectrons() {
 
       if (!e.passedBarrier && e.x >= BARRIER_X()) {
         e.passedBarrier = true;
-        e.startY = e.y;
-        e.barrierX = BARRIER_X();
+        e.startY        = e.slitY;
       }
 
- if (e.passedBarrier) {
-  const progress = Math.min((e.x - e.barrierX) / (SCREEN_X() - e.barrierX), 1);
-  const eased = progress * progress * (3 - 2 * progress);
-  e.y = e.startY + (e.finalY - e.startY) * eased;
-}
+      if (e.passedBarrier) {
+        const progress = Math.min(
+          (e.x - e.barrierX) / (SCREEN_X() - e.barrierX), 1
+        );
+        const eased = progress * progress * (3 - 2 * progress);
+        e.y = e.startY + (e.finalY - e.startY) * eased;
+      }
 
       if (e.x >= SCREEN_X()) {
         e.phase = 'hit';
-        e.x = SCREEN_X();
-        e.y = e.finalY;
-        screenHits.push(e.finalY);
-        if (screenHits.length > 3000) screenHits.shift();
+        e.x     = SCREEN_X();
+        e.y     = e.finalY;
+        addHit(e.finalY);
       }
     }
 
@@ -105,62 +159,46 @@ function updateElectrons() {
 function drawBackground() {
   ctx.fillStyle = '#0a0a14';
   ctx.fillRect(0, 0, W(), H());
-  ctx.strokeStyle = '#14082a';
-  ctx.lineWidth = 0.5;
-  for (let x = 0; x < W(); x += 40) {
-    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H()); ctx.stroke();
-  }
-  for (let y = 0; y < H(); y += 40) {
-    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W(), y); ctx.stroke();
-  }
 }
 
 function drawSource() {
   const cx = SOURCE_X(), cy = H() / 2;
   ctx.beginPath();
   ctx.arc(cx, cy, 16, 0, Math.PI * 2);
-  ctx.fillStyle = '#1a0a2a';
-  ctx.fill();
-  ctx.strokeStyle = '#ff6090';
-  ctx.lineWidth = 1.5;
-  ctx.stroke();
+  ctx.fillStyle = '#1a0a2a'; ctx.fill();
+  ctx.strokeStyle = '#ff6090'; ctx.lineWidth = 1.5; ctx.stroke();
   ctx.beginPath();
   ctx.arc(cx, cy, 8, 0, Math.PI * 2);
-  ctx.fillStyle = '#ff6090';
-  ctx.fill();
+  ctx.fillStyle = '#ff6090'; ctx.fill();
   ctx.fillStyle = '#6a4a8a';
   ctx.font = '10px Courier New';
   ctx.textAlign = 'center';
-  ctx.fillText('e⁻', cx, cy + 32);
+  ctx.fillText('SOURCE', cx, cy + 32);
 }
 
 function drawBarrier() {
-  const bx = BARRIER_X(), cy = H() / 2;
+  const bx  = BARRIER_X(), cy = H() / 2;
   const gap = SLIT_GAP(), sh = SLIT_H(), bw = 10;
-  const s1t = cy - gap/2 - sh/2;
-  const s1b = cy - gap/2 + sh/2;
-  const s2t = cy + gap/2 - sh/2;
-  const s2b = cy + gap/2 + sh/2;
+  const s1t = cy - gap/2 - sh/2, s1b = cy - gap/2 + sh/2;
+  const s2t = cy + gap/2 - sh/2, s2b = cy + gap/2 + sh/2;
 
-  ctx.fillStyle = '#0d0d1e';
+  ctx.fillStyle   = '#0d0d1e';
   ctx.strokeStyle = '#3a1a5a';
-  ctx.lineWidth = 1;
+  ctx.lineWidth   = 1;
 
   [[0, s1t], [s1b, s2t - s1b], [s2b, H() - s2b]].forEach(([y, h]) => {
     ctx.fillRect(bx - bw/2, y, bw, h);
     ctx.strokeRect(bx - bw/2, y, bw, h);
   });
 
-  const sc = detectorOn ? '#40ffcc' : '#ff6090';
-  ctx.strokeStyle = sc;
-  ctx.lineWidth = 2;
+  const sc = (detectorOn && detStrength >= 50) ? '#40ffcc' : '#ff6090';
+  ctx.strokeStyle = sc; ctx.lineWidth = 2;
   ctx.strokeRect(bx - bw/2 - 1, s1t - 2, bw + 2, sh + 4);
   ctx.strokeRect(bx - bw/2 - 1, s2t - 2, bw + 2, sh + 4);
 
-  if (detectorOn) {
+  if (detectorOn && detStrength >= 50) {
     ctx.fillStyle = '#40ffcc';
-    ctx.font = '8px Courier New';
-    ctx.textAlign = 'center';
+    ctx.font = '8px Courier New'; ctx.textAlign = 'center';
     ctx.fillText('DET', bx, s1t - 10);
     ctx.fillText('DET', bx, s2b + 16);
   }
@@ -168,34 +206,40 @@ function drawBarrier() {
 
 function drawScreen() {
   const sx = SCREEN_X(), sw = 24;
-
   ctx.fillStyle = '#0d0d1e';
   ctx.fillRect(sx, 0, sw, H());
-  ctx.strokeStyle = '#3a1a5a';
-  ctx.lineWidth = 1;
+  ctx.strokeStyle = '#3a1a5a'; ctx.lineWidth = 1;
   ctx.strokeRect(sx, 0, sw, H());
 
-  const bins = {}, bs = 4;
-  screenHits.forEach(y => {
-    const b = Math.floor(y / bs) * bs;
-    bins[b] = (bins[b] || 0) + 1;
-  });
-  const mx = Math.max(...Object.values(bins), 1);
+  const isParticle = detectorOn && detStrength >= 50;
 
-  Object.entries(bins).forEach(([by, cnt]) => {
-    const a = Math.min((cnt / mx) * 1.8, 1);
-    const y = parseFloat(by);
-    if (detectorOn && detStrength >= 60) {
+  if (isParticle) {
+    const slits = getSlits();
+    const sigma = SLIT_H() * 3;
+    for (let y = 0; y < H(); y++) {
+      let val = 0;
+      slits.forEach(slit => {
+        const dy = y - slit.y;
+        val += Math.exp(-(dy * dy) / (2 * sigma * sigma));
+      });
+      if (val < 0.01) continue;
+      const a = Math.min(val * 1.5, 1);
       ctx.fillStyle = `rgba(64,255,204,${a})`;
-    } else {
-      ctx.fillStyle = `rgba(255,96,144,${a})`;
+      ctx.fillRect(sx + 2, y, sw - 4, 1);
     }
-    ctx.fillRect(sx + 2, y, sw - 4, bs + 1);
-  });
+  } else {
+    if (!intensity || maxIntensity === 0) return;
+    for (let y = 0; y < intensity.length; y++) {
+      const norm = intensity[y] / maxIntensity;
+      if (norm < 0.01) continue;
+      const a = Math.min(norm * 2, 1);
+      ctx.fillStyle = `rgba(255,96,144,${a})`;
+      ctx.fillRect(sx + 2, y, sw - 4, 1);
+    }
+  }
 
   ctx.fillStyle = '#3a1a5a';
-  ctx.font = '8px Courier New';
-  ctx.textAlign = 'center';
+  ctx.font = '8px Courier New'; ctx.textAlign = 'center';
   ctx.fillText('SCREEN', sx + sw/2, H() - 8);
 }
 
@@ -209,29 +253,23 @@ function drawElectrons() {
     if (e.isWave && !e.passedBarrier) {
       ctx.beginPath();
       ctx.arc(e.x, e.y, 4, 0, Math.PI * 2);
-      ctx.fillStyle = col;
-      ctx.fill();
+      ctx.fillStyle = col; ctx.fill();
       if (e.waveR > 0 && e.waveR < 30) {
         ctx.beginPath();
         ctx.arc(e.x, e.y, e.waveR, 0, Math.PI * 2);
         ctx.strokeStyle = `rgba(255,96,144,${e.alpha * 0.15})`;
-        ctx.lineWidth = 1;
-        ctx.stroke();
+        ctx.lineWidth = 1; ctx.stroke();
       }
     } else {
-      const r = e.passedBarrier ? 3 : 4;
       ctx.beginPath();
-      ctx.arc(e.x, e.y, r, 0, Math.PI * 2);
-      ctx.fillStyle = col;
-      ctx.fill();
+      ctx.arc(e.x, e.y, e.passedBarrier ? 3 : 4, 0, Math.PI * 2);
+      ctx.fillStyle = col; ctx.fill();
     }
 
     if (e.phase === 'hit') {
       ctx.beginPath();
       ctx.arc(e.x, e.y, 22 * (1 - e.alpha), 0, Math.PI * 2);
-      ctx.strokeStyle = col;
-      ctx.lineWidth = 1.5;
-      ctx.stroke();
+      ctx.strokeStyle = col; ctx.lineWidth = 1.5; ctx.stroke();
     }
   });
 }
@@ -246,31 +284,31 @@ function toggleDetector() {
   toggle.classList.toggle('on', detectorOn);
 
   if (detectorOn) {
-    badge.textContent = 'ON';
-    badge.classList.add('on');
-    grp.style.opacity = '1';
-    slider.disabled = false;
-    detStrength = 70;
-    slider.value = 70;
+    badge.textContent = 'ON'; badge.classList.add('on');
+    grp.style.opacity   = '1';
+    slider.disabled     = false;
+    detStrength         = 70;
+    slider.value        = 70;
     document.getElementById('strVal').textContent = '70';
   } else {
-    badge.textContent = 'OFF';
-    badge.classList.remove('on');
-    grp.style.opacity = '0.3';
-    slider.disabled = true;
-    detStrength = 0;
-    slider.value = 0;
+    badge.textContent = 'OFF'; badge.classList.remove('on');
+    grp.style.opacity   = '0.3';
+    slider.disabled     = true;
+    detStrength         = 0;
+    slider.value        = 0;
     document.getElementById('strVal').textContent = '0';
   }
 
-  updateInfoPanel();
-  screenHits = [];
+  resetIntensity();
   electrons = [];
+  updateInfoPanel();
 }
 
 function updateStrength(val) {
   detStrength = parseInt(val);
   document.getElementById('strVal').textContent = val;
+  resetIntensity();
+  electrons = [];
 }
 
 function updateSpeed(val) {
@@ -279,10 +317,10 @@ function updateSpeed(val) {
 }
 
 function resetSim() {
-  electrons = [];
-  screenHits = [];
+  electrons      = [];
   totalElectrons = 0;
   document.getElementById('statTotal').textContent = '0';
+  resetIntensity();
 }
 
 function updateInfoPanel() {
@@ -290,18 +328,18 @@ function updateInfoPanel() {
   const text  = document.getElementById('behaviorText');
   const mode  = document.getElementById('statMode');
 
-  if (detectorOn) {
-    title.textContent = 'PARTICLE BEHAVIOR';
-    title.style.color = '#40ffcc';
-    text.innerHTML = 'Detector <strong>on</strong>: Which slit the electron passed through is now measurable. The wave function <strong>collapses</strong> — only two bands appear on the screen.';
-    mode.textContent = 'PARTICLE';
-    mode.style.color = '#40ffcc';
+  if (detectorOn && detStrength >= 50) {
+    title.textContent  = 'PARTICLE BEHAVIOR';
+    title.style.color  = '#40ffcc';
+    text.innerHTML     = 'Detector <strong>on</strong>: Only one slit is detected, wave collapses, two bands appear.';
+    mode.textContent   = 'PARTICLE';
+    mode.style.color   = '#40ffcc';
   } else {
-    title.textContent = 'WAVE BEHAVIOR';
-    title.style.color = '#ff6090';
-    text.innerHTML = 'Detector <strong>off</strong>: The electron passes through both slits simultaneously and interferes with itself. Multiple bright and dark fringes appear on the screen.';
-    mode.textContent = 'WAVE';
-    mode.style.color = '#ff6090';
+    title.textContent  = 'WAVE BEHAVIOR';
+    title.style.color  = '#ff6090';
+    text.innerHTML     = 'Detector <strong>off</strong>: Electron interferes as a wave, multiple bright/dark fringes appear.';
+    mode.textContent   = 'WAVE';
+    mode.style.color   = '#ff6090';
   }
 }
 
