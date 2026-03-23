@@ -129,7 +129,7 @@ function draw() {
   ctx.beginPath();
   for (let i = 0; i < N; i++) {
     const x = i * xScale;
-    const prob = (psi_r[i]*psi_r[i] + psi_i[i]*psi_i[i]) * scale * 15;
+    const prob = (psi_r[i]*psi_r[i] + psi_i[i]*psi_i[i]) * scale * 4;
     if (i === 0) ctx.moveTo(x, cy - prob);
     else ctx.lineTo(x, cy - prob);
   }
