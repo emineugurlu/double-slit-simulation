@@ -153,6 +153,51 @@ This is called **decoherence**.
 
 ---
 
+✅ Quantum Tunneling
+A particle passes through a barrier it classically cannot cross.
+Numerical solution of the time-dependent Schrödinger equation. A Gaussian wave packet is fired at a potential barrier — watch it split into a reflected wave and a tunneled wave.
+Physics modeled:
+
+Time-dependent Schrödinger equation (explicit finite difference)
+Gaussian wave packet initialization
+Absorbing boundary conditions
+Transmission probability: T ≈ e^(-2κL)
+
+<img width="1917" height="861" alt="Ekran görüntüsü 2026-03-23 124250" src="https://github.com/user-attachments/assets/2dcf43c7-25de-4f01-852d-d990a3e3c068" />
+
+🔜 Schrödinger's Equation
+Visualizing the wave function in a potential well. Standing waves, energy levels, quantum confinement.
+
+The Physics
+Double-Slit & Wave Interference
+The interference pattern forms because two amplitudes exist simultaneously:
+I(y) = |ψ₁ + ψ₂|²
+Add first, then square. If you squared first, there would be no interference. This single formula encodes wave-particle duality.
+When the detector turns on, only one slit is active. ψ₁ + ψ₂ becomes ψ₁. The pattern disappears — not because of quantum magic, but because the math changes.
+Quantum Tunneling
+The wave function penetrates barriers it classically shouldn't:
+T ≈ e^(-2κL)    where κ = √(2m(V-E)) / ℏ
+In the simulation, this is computed by solving the Schrödinger equation numerically at each time step:
+javascriptnr[i] = psi_r[i] + alpha * lap_i - (dt/hbar) * V[i] * psi_i[i];
+ni[i] = psi_i[i] - alpha * lap_r + (dt/hbar) * V[i] * psi_r[i];
+Absorbing boundaries prevent artificial reflections from the edges of the simulation space.
+
+<img width="1917" height="867" alt="Ekran görüntüsü 2026-03-23 124256" src="https://github.com/user-attachments/assets/d85f9ec5-90fb-4526-9c0a-118a9b6fbd71" />
+
+Real World Applications
+Double-Slit / Wave Interference:
+
+Electron microscopy
+Quantum computing (superposition)
+Photonic crystals
+
+Quantum Tunneling:
+
+Transistors — electrons tunnel through oxide layers in every CPU
+Nuclear fusion — protons tunnel in the Sun's core
+DNA mutations — protons tunnel between base pairs
+Scanning tunneling microscope — images individual atoms
+
 ## 🛠️ Tech Stack
 
 - Vanilla JavaScript  
