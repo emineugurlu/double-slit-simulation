@@ -139,20 +139,6 @@ This is called **decoherence**.
 
 ---
 
-## How the Simulation Works
-
-### Double-Slit
-
-- Probability based on |ψ|²  
-- More hits → clearer pattern  
-
-### Wave Interference
-
-- Each pixel computes wave contribution  
-- Time evolves → animation  
-
----
-
 ✅ Quantum Tunneling
 A particle passes through a barrier it classically cannot cross.
 Numerical solution of the time-dependent Schrödinger equation. A Gaussian wave packet is fired at a potential barrier — watch it split into a reflected wave and a tunneled wave.
@@ -198,6 +184,20 @@ Nuclear fusion — protons tunnel in the Sun's core
 DNA mutations — protons tunnel between base pairs
 Scanning tunneling microscope — images individual atoms
 
+## How the Simulation Works
+
+### Double-Slit
+
+- Probability based on |ψ|²  
+- More hits → clearer pattern  
+
+### Wave Interference
+
+- Each pixel computes wave contribution  
+- Time evolves → animation  
+
+---
+
 ## 🛠️ Tech Stack
 
 - Vanilla JavaScript  
@@ -208,7 +208,12 @@ Scanning tunneling microscope — images individual atoms
 
 ## 🔮 What's Next
 
-- ✅ Double-Slit Experiment  
-- ✅ Wave Interference  
-- 🔜 Quantum Tunneling  
-- 🔜 Schrödinger's Equation  
+✅ Double-Slit Experiment
+✅ Wave Interference
+✅ Quantum Tunneling
+🔜 Schrödinger's Equation
+
+Articles
+
+Dev.to: I Built a Quantum Physics Simulator in JavaScript
+Medium: A Single Electron Knows When You're Watching
