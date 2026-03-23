@@ -59,9 +59,9 @@ function initWavePacket() {
 }
 
 function absorb() {
-  const zone = 60;
+  const zone = 100;
   for (let i = 0; i < zone; i++) {
-    const f = Math.pow(i / zone, 2);
+    const f = Math.pow(i / zone, 3);
     psi_r[i] *= f; psi_i[i] *= f;
     psi_r[N-1-i] *= f; psi_i[N-1-i] *= f;
   }
@@ -100,7 +100,7 @@ function draw() {
   const cy = H() / 2;
   const xScale = W() / N;
   const scale = H() * 0.4;
-  const ampScale = scale * 6;
+  const ampScale = scale * 3;
 
   ctx.strokeStyle = '#1a0a3a';
   ctx.lineWidth = 1;
@@ -202,7 +202,7 @@ function updateEnergy() {
 }
 
 function loop() {
-  for (let s = 0; s < 20; s++) step();
+  for (let s = 0; s < 10; s++) step();
   draw();
   if (running) animId = requestAnimationFrame(loop);
 }
