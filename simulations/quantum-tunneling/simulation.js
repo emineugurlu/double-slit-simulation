@@ -6,7 +6,7 @@ const H = () => canvas.height;
 
 const N = 512;
 const dx = 1.0;
-const dt = 0.05;
+const dt = 0.01;
 const hbar = 1.0;
 const mass = 1.0;
 
@@ -46,8 +46,8 @@ function initWavePacket() {
   psi_r.fill(0);
   psi_i.fill(0);
 
-  const x0 = Math.floor(N * 0.25);
-  const sigma = 20;
+  const x0 = Math.floor(N * 0.15);
+  const sigma = 40;
   const k0 = Math.sqrt(2 * mass * particleEnergy) / hbar;
 
   for (let i = 0; i < N; i++) {
@@ -129,7 +129,7 @@ function draw() {
   ctx.beginPath();
   for (let i = 0; i < N; i++) {
     const x = i * xScale;
-    const prob = (psi_r[i]*psi_r[i] + psi_i[i]*psi_i[i]) * scale * 4;
+    const prob = (psi_r[i]*psi_r[i] + psi_i[i]*psi_i[i]) * scale * 8;
     if (i === 0) ctx.moveTo(x, cy - prob);
     else ctx.lineTo(x, cy - prob);
   }
@@ -209,7 +209,7 @@ function resetSim() {
 }
 
 function loop() {
-  for (let s = 0; s < 8; s++) {
+  for (let s = 0; s < 12; s++) {
     stepSchrodinger();
   }
 
