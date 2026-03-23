@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quantum Tunneling</title>
+  <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+
+  <div class="container">
+
+    <div class="lab-panel">
+      <div class="panel-header">
+        <a href="../../index.html" class="back-btn">← BACK</a>
+        QUANTUM TUNNELING
+      </div>
+      <canvas id="simCanvas"></canvas>
+      <div class="controls">
+        <div class="ctrl-group">
+          <span class="ctrl-label">BARRIER HEIGHT</span>
+          <input type="range" id="barrierHeight" min="0.1" max="2.0" value="0.8" step="0.1"
+            oninput="updateBarrier()">
+          <span class="val" id="barrierHeightVal">0.8</span>
+        </div>
+        <div class="ctrl-group">
+          <span class="ctrl-label">BARRIER WIDTH</span>
+          <input type="range" id="barrierWidth" min="1" max="80" value="20" step="1"
+            oninput="updateBarrier()">
+          <span class="val" id="barrierWidthVal">20</span>
+        </div>
+        <div class="ctrl-group">
+          <span class="ctrl-label">PARTICLE ENERGY</span>
+          <input type="range" id="particleEnergy" min="0.1" max="1.5" value="0.5" step="0.1"
+            oninput="updateEnergy()">
+          <span class="val" id="particleEnergyVal">0.5</span>
+        </div>
+        <button class="reset-btn" onclick="resetSim()">RESET</button>
+        <button class="reset-btn" onclick="firePulse()">FIRE ↗</button>
+      </div>
+    </div>
+
+    <div class="info-panel">
+      <div class="panel-header">EXPERIMENT INFO</div>
+
+      <div class="info-section">
+        <div class="info-title">WHAT IS QUANTUM TUNNELING?</div>
+        <div class="info-body">
+          In classical physics, a particle cannot pass through a barrier 
+          if it lacks sufficient energy. In quantum mechanics, the particle 
+          exists as a <strong>wave function</strong> that penetrates the barrier — 
+          and can emerge on the other side.
+        </div>
+      </div>
+
+      <div class="info-section">
+        <div class="info-title" style="color:#40ffcc;">TRANSMISSION PROBABILITY</div>
+        <div class="info-body">
+          The probability of tunneling depends on barrier height, 
+          barrier width, and particle energy. Thinner barriers and 
+          higher energy = more tunneling.
+          <br><br>
+          <strong style="color:#40ffcc;">T ≈ e^(-2κL)</strong>
+          <br><br>
+          κ = √(2m(V-E)) / ℏ<br>
+          L = barrier width
+        </div>
+      </div>
+
+      <div class="info-section">
+        <div class="info-title" style="color:#ff6090;">REAL WORLD APPLICATIONS</div>
+        <div class="info-body">
+          — <strong>Transistors</strong>: electrons tunnel through thin oxide layers<br>
+          — <strong>Nuclear fusion</strong>: protons tunnel in the Sun<br>
+          — <strong>DNA mutations</strong>: protons tunnel between base pairs<br>
+          — <strong>Scanning tunneling microscope</strong>: images individual atoms
+        </div>
+      </div>
+
+      <div class="info-section">
+        <div class="info-title stat-title">STATISTICS</div>
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-val" id="statTransmission">-</div>
+            <div class="stat-label">TRANSMISSION %</div>
+          </div>
+          <div class="stat">
+            <div class="stat-val" id="statTunneled">0</div>
+            <div class="stat-label">TUNNELED</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="simulation.js"></script>
+</body>
+</html>
