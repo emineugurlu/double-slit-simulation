@@ -1,219 +1,64 @@
-# Double-Slit Simulation ⚛️
+# ⚛️ Quantum Physics Visualizer: Wave-Particle Duality & Tunneling
 
-Do electrons really pass through **both slits at the same time**?
+> **"A high-fidelity computational physics simulation designed to visualize the fundamental paradoxes of quantum mechanics. Built with Vanilla JavaScript and HTML5 Canvas, this engine solves the time-dependent Schrödinger equation in real-time to demonstrate wave-particle duality and quantum tunneling."**
 
-This project is an interactive simulation of the **double-slit experiment**, demonstrating the fundamental concept of **wave–particle duality**.
+![Language](https://img.shields.io/badge/Language-JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![Platform](https://img.shields.io/badge/Platform-Web--HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+![Domain](https://img.shields.io/badge/Domain-Quantum%20Mechanics-blueviolet?style=for-the-badge)
+![Live](https://img.shields.io/badge/Live-Demo-brightgreen?style=for-the-badge)
 
----
-
-## 🚀 Live Demo
-🔗 https://emineugurlu.github.io/double-slit-simulation/
-
----
-
-## 🎮 Features
-
-- 🔬 Toggle detector → observe interference collapse  
-- ⚡ Adjustable electron emission speed  
-- 🎚️ Detector strength control  
-- 🌊 Wave & particle behavior visualization  
-- 🎨 Real-time rendering with HTML5 Canvas  
+**Quantum Physics Visualizer** is an interactive educational ecosystem developed by **Emine Uğurlu**. It bridges the gap between abstract quantum mathematics and visual intuition, allowing users to observe how observation collapses the wave function and how particles defy classical physics through tunneling.
 
 ---
 
-## 🧠 What You’ll Observe
+## 🚀 Engineering & Physics Excellence
 
-| Mode | Result |
-|------|--------|
-| Detector OFF | Interference pattern (wave behavior) |
-| Detector ON  | Two bands (particle behavior) |
+This project showcases advanced computational physics and real-time rendering:
 
----
+* **Wave Function (ψ) Simulation:** Implementing complex-valued probability amplitudes using the formula $I(y) = |\psi_1 + \psi_2|^2$ to render interference patterns.
+* **Schrödinger Equation Solver:** Numerical solution of the time-dependent Schrödinger equation using explicit finite difference methods for quantum tunneling.
+* **Observer Effect Modeling:** Real-time demonstration of **Decoherence**, where the act of measurement (Detector ON) collapses the wave function into classical particle behavior.
+* **Spatial Rendering Engine:** High-performance pixel manipulation on **HTML5 Canvas** for fluid, time-evolving wave visualizations.
+* **Absorbing Boundary Conditions:** Implementation of numerical boundaries to prevent artificial wave reflections at the edges of the simulation space.
 
-## 📖 Explanation
+## ✨ Core Features
 
-Below is a detailed explanation of the physics behind the simulation 👇
+* 🔬 **Interactive Double-Slit:** Toggle detectors to witness the transition from wave interference to particle bands.
+* ⚡ **Quantum Tunneling:** Visualize a Gaussian wave packet penetrating a classically impassable potential barrier ($T \approx e^{-2\kappa L}$).
+* 🌊 **Wave Interference Lab:** Real-time control over electron emission speed, detector strength, and wave frequency.
+* 📈 **Mathematical Transparency:** Dynamic display of the probability density $| \psi |^2$ as interference patterns form.
 
----
+## 📸 Simulation Showcase
 
-# Physics Visualizations
-
-## The Strangest Experiment in History
-
-In 1801, Thomas Young shone light through two slits and observed the screen behind them.
-
-Instead of two bright bands, he saw alternating light and dark stripes. Light was behaving like a wave, interfering with itself.
-
-Then scientists repeated the experiment with electrons.
-
-Same result.
-
-Even when electrons were fired one at a time, an interference pattern gradually appeared.
-
-A single electron behaved like it passed through both slits at once.
-
-<img width="1919" height="869" src="https://github.com/user-attachments/assets/a540f327-f6e4-4602-8161-4bc29b1b24a1" />
-
-How is this possible?
+| **The Observer Effect** | **Quantum Tunneling** |
+| :--- | :--- |
+| ![Double Slit](https://github.com/user-attachments/assets/a540f327-f6e4-4602-8161-4bc29b1b24a1) | ![Tunneling](https://github.com/user-attachments/assets/2dcf43c7-25de-4f01-852d-d990a3e3c068) |
 
 ---
 
-## The Answer: We Don't Know
+## 🛠️ Tech Stack & Setup
 
-When scientists tried to observe which slit the electron passed through, the interference pattern disappeared.
+* **Frontend:** Vanilla JavaScript (ES6+), HTML5 Canvas, CSS3.
+* **Physics Modeling:** Finite Difference Methods for Schrödinger Equation.
+* **Deployment:** GitHub Pages.
 
-The electron behaved like a classical particle.
-
-The act of observation changed the outcome.
-
-Even having the information exist physically is enough.
-
-Why?
-
-We still don’t know.
-
-<img width="1903" height="871" src="https://github.com/user-attachments/assets/642ec4b6-1556-450c-8513-e1ea599664db" />
+**Quick Start:**
+1. Clone the repository: `git clone https://github.com/emineugurlu/double-slit-simulation.git`
+2. Open `index.html` in any modern web browser.
+3. Access the Live Demo [here](https://emineugurlu.github.io/double-slit-simulation/).
 
 ---
 
-## The Wave Function — Is It Reality Itself?
+## 📦 CI/CD & Roadmap
 
-Before measurement, an electron exists as a **wave function (ψ)**.
+### **v1.0.0 — Quantum Foundation ⚛️✨**
+> This release establishes the core simulation engine, including the Double-Slit experiment and Quantum Tunneling modules. It features optimized canvas rendering and numerical solvers for probability amplitude calculations. Quantum mechanics is no longer just a theory.
 
-This describes the probability of finding the electron.
-
-Intensity is calculated as:
-I(y) = |ψ₁ + ψ₂|²
-
-In the simulation:
-ψ = A × exp(-(Δy²/2σ²)) × exp(i × 2πr/λ)
-
-Final intensity:
-total = (re₁+re₂)² + (im₁+im₂)²
-
-<img width="1896" height="864" src="https://github.com/user-attachments/assets/bcea628f-9106-4430-8aee-f22ada3a4389" />
+**What's Next:**
+* 🔜 Schrödinger's Equation: Energy levels in potential wells.
+* 🔜 Quantum Confinement & Standing Waves.
 
 ---
 
-## Interference
-
-Constructive interference:
-
-<img width="1896" height="864" src="https://github.com/user-attachments/assets/bcea628f-9106-4430-8aee-f22ada3a4389" />
-
----
-
-## Interference
-
-Constructive interference:
-Δr = nλ
-
-Destructive interference:
-Δr = (n + ½)λ
-
----
-
-## Wave Interference
-
-Each slit behaves like a wave source:
-ψ_total = ψ₁ + ψ₂
-ψ = A × cos(2πr/λ - ωt)
-
-<img width="1916" height="867" src="https://github.com/user-attachments/assets/f331443a-59f4-4a3b-bb6e-72fd394d561a" />
-
----
-
-## What Happens When the Detector Turns On?
-
-Turning on the detector answers:
-
-**Which slit did the electron go through?**
-
-And that destroys the interference.
-
-The wave function collapses.
-
-<img width="1917" height="866" src="https://github.com/user-attachments/assets/4183d8ba-2fae-4c2a-b70f-1aef688c41cf" />
-
-This is called **decoherence**.
-
----
-
-✅ Quantum Tunneling
-A particle passes through a barrier it classically cannot cross.
-Numerical solution of the time-dependent Schrödinger equation. A Gaussian wave packet is fired at a potential barrier — watch it split into a reflected wave and a tunneled wave.
-Physics modeled:
-
-Time-dependent Schrödinger equation (explicit finite difference)
-Gaussian wave packet initialization
-Absorbing boundary conditions
-Transmission probability: T ≈ e^(-2κL)
-
-<img width="1917" height="861" alt="Ekran görüntüsü 2026-03-23 124250" src="https://github.com/user-attachments/assets/2dcf43c7-25de-4f01-852d-d990a3e3c068" />
-
-🔜 Schrödinger's Equation
-Visualizing the wave function in a potential well. Standing waves, energy levels, quantum confinement.
-
-The Physics
-Double-Slit & Wave Interference
-The interference pattern forms because two amplitudes exist simultaneously:
-I(y) = |ψ₁ + ψ₂|²
-Add first, then square. If you squared first, there would be no interference. This single formula encodes wave-particle duality.
-When the detector turns on, only one slit is active. ψ₁ + ψ₂ becomes ψ₁. The pattern disappears — not because of quantum magic, but because the math changes.
-Quantum Tunneling
-The wave function penetrates barriers it classically shouldn't:
-T ≈ e^(-2κL)    where κ = √(2m(V-E)) / ℏ
-In the simulation, this is computed by solving the Schrödinger equation numerically at each time step:
-javascriptnr[i] = psi_r[i] + alpha * lap_i - (dt/hbar) * V[i] * psi_i[i];
-ni[i] = psi_i[i] - alpha * lap_r + (dt/hbar) * V[i] * psi_r[i];
-Absorbing boundaries prevent artificial reflections from the edges of the simulation space.
-
-<img width="1917" height="867" alt="Ekran görüntüsü 2026-03-23 124256" src="https://github.com/user-attachments/assets/d85f9ec5-90fb-4526-9c0a-118a9b6fbd71" />
-
-Real World Applications
-Double-Slit / Wave Interference:
-
-Electron microscopy
-Quantum computing (superposition)
-Photonic crystals
-
-Quantum Tunneling:
-
-Transistors — electrons tunnel through oxide layers in every CPU
-Nuclear fusion — protons tunnel in the Sun's core
-DNA mutations — protons tunnel between base pairs
-Scanning tunneling microscope — images individual atoms
-
-## How the Simulation Works
-
-### Double-Slit
-
-- Probability based on |ψ|²  
-- More hits → clearer pattern  
-
-### Wave Interference
-
-- Each pixel computes wave contribution  
-- Time evolves → animation  
-
----
-
-## 🛠️ Tech Stack
-
-- Vanilla JavaScript  
-- HTML5 Canvas  
-- GitHub Pages  
-
----
-
-## 🔮 What's Next
-
-✅ Double-Slit Experiment
-✅ Wave Interference
-✅ Quantum Tunneling
-🔜 Schrödinger's Equation
-
-Articles
-
-Dev.to: I Built a Quantum Physics Simulator in JavaScript
-Medium: A Single Electron Knows When You're Watching
+Developed by **Emine Uğurlu - Computer Engineer**
+*Visualizing the invisible through the power of code.*
