@@ -58,7 +58,7 @@ This project showcases advanced computational physics and an optimized visualiza
 
 1. **Clone the Repository:**
  ```bash
-  git clone [https://github.com/emineugurlu/double-slit-simulation.git](https://github.com/emineugurlu/double-slit-simulation.git)
+  git clone https://github.com/emineugurlu/double-slit-simulation
   cd double-slit-simulation
   ````
 2 **Run the Project:**
