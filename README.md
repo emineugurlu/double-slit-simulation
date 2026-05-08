@@ -63,8 +63,6 @@ This project showcases advanced computational physics and an optimized visualiza
 ````
 2 **Run the Project:**
 
-Simply open index.html in any modern web browser. Alternatively, access the live demo here: 
-````bash
-Live Demo
-````
+Simply open index.html in any modern web browser. Alternatively, access the live demo here: Live Demo
+
 Developed by Emine Uğurlu - Computer Engineer - Visualizing the invisible through the power of code.
