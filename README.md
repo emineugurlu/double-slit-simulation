@@ -34,6 +34,10 @@ This project showcases advanced computational physics and an optimized visualiza
 <p align="center">
   <img src="https://github.com/user-attachments/assets/a540f327-f6e4-4602-8161-4bc29b1b24a1" width="49%" alt="Double Slit Experiment Preview" />
   <img src="https://github.com/user-attachments/assets/2dcf43c7-25de-4f01-852d-d990a3e3c068" width="49%" alt="Quantum Tunneling Preview" />
+  <img width="1913" height="873" alt="image" src="https://github.com/user-attachments/assets/868609cd-b5e8-49a9-982c-1d2b7339aac1" width="49%"alt=" Schrödinger's Equation" />
+ <img width="1919" height="864" alt="image" src="https://github.com/user-attachments/assets/6e0466ec-1502-4e3a-8155-6e0c4db8049d" width="49%" alt="Wave Interference" />
+
+
 </p>
 
 ---
