@@ -5,60 +5,51 @@
 ![Language](https://img.shields.io/badge/Language-JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 ![Platform](https://img.shields.io/badge/Platform-Web--HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![Domain](https://img.shields.io/badge/Domain-Quantum%20Mechanics-blueviolet?style=for-the-badge)
-![Live](https://img.shields.io/badge/Live-Demo-brightgreen?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
 
-**Quantum Physics Visualizer** is an interactive educational ecosystem developed by **Emine Uğurlu**. It bridges the gap between abstract quantum mathematics and visual intuition, allowing users to observe how observation collapses the wave function and how particles defy classical physics through tunneling.
+**Quantum Physics Visualizer** is a high-performance simulation ecosystem designed to bridge the gap between abstract quantum mathematics and visual intuition. Developed by **Emine Uğurlu**, this platform models complex phenomena such as wave function collapse and quantum tunneling within a browser-based environment in real-time.
 
 ---
 
 ## 🚀 Engineering & Physics Excellence
 
-This project showcases advanced computational physics and real-time rendering:
+This project showcases advanced computational physics and an optimized visualization architecture:
 
-* **Wave Function (ψ) Simulation:** Implementing complex-valued probability amplitudes using the formula $I(y) = |\psi_1 + \psi_2|^2$ to render interference patterns.
-* **Schrödinger Equation Solver:** Numerical solution of the time-dependent Schrödinger equation using explicit finite difference methods for quantum tunneling.
-* **Observer Effect Modeling:** Real-time demonstration of **Decoherence**, where the act of measurement (Detector ON) collapses the wave function into classical particle behavior.
-* **Spatial Rendering Engine:** High-performance pixel manipulation on **HTML5 Canvas** for fluid, time-evolving wave visualizations.
-* **Absorbing Boundary Conditions:** Implementation of numerical boundaries to prevent artificial wave reflections at the edges of the simulation space.
+* **Schrödinger Equation Integration:** The core engine is built upon a numerical solver for the **Time-Dependent Schrödinger Equation (TDSE)**:
+    $$\imath \hbar \frac{\partial}{\partial t} \Psi(x,t) = \left[ -\frac{\hbar^2}{2m} \frac{\partial^2}{\partial x^2} + V(x,t) \right] \Psi(x,t)$$
+* **Wave Function ($\Psi$) Simulation:** Real-time tracking of complex-valued probability amplitudes ($\Psi = A + iB$) and rendering of interference patterns using the $I(y) = |\psi_1 + \psi_2|^2$ formulation.
+* **Numerical Finite Difference Solver:** Optimized explicit finite difference algorithms to simulate the interaction of wave packets with potential barriers $V(x)$.
+* **Decoherence Modeling:** Implementation of the "Observer Effect" algorithm, demonstrating how the act of measurement collapses the wave function into classical particle behavior.
+* **High-Performance Rendering:** Direct pixel manipulation on **HTML5 Canvas** for a fluid simulation experience with a low-latency computational loop.
 
 ## ✨ Core Features
 
-* 🔬 **Interactive Double-Slit:** Toggle detectors to witness the transition from wave interference to particle bands.
-* ⚡ **Quantum Tunneling:** Visualize a Gaussian wave packet penetrating a classically impassable potential barrier ($T \approx e^{-2\kappa L}$).
-* 🌊 **Wave Interference Lab:** Real-time control over electron emission speed, detector strength, and wave frequency.
-* 📈 **Mathematical Transparency:** Dynamic display of the probability density $| \psi |^2$ as interference patterns form.
+* 🔬 **Interactive Double-Slit:** Dynamically control detectors to witness the transition from wave interference to particle bands (Wave Function Collapse).
+* ⚡ **Quantum Tunneling:** Visualize a Gaussian wave packet penetrating classically impassable potential barriers through quantum tunneling ($T \approx e^{-2\kappa L}$).
+* 🌊 **Wave Function Visualization:** Analyze $\Psi$ amplitudes and phase differences representing the wave-like nature of matter through high-resolution graphics.
+* 📈 **Mathematical Transparency:** Dynamic data visualizations of probability density ($| \Psi |^2$) and energy levels that update in real-time during the simulation.
 
 ## 📸 Simulation Showcase
 
-| **The Observer Effect** | **Quantum Tunneling** |
-| :--- | :--- |
-| ![Double Slit](https://github.com/user-attachments/assets/a540f327-f6e4-4602-8161-4bc29b1b24a1) | ![Tunneling](https://github.com/user-attachments/assets/2dcf43c7-25de-4f01-852d-d990a3e3c068) |
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/a540f327-f6e4-4602-8161-4bc29b1b24a1" width="49%" alt="Double Slit Experiment Preview" />
+  <img src="https://github.com/user-attachments/assets/2dcf43c7-25de-4f01-852d-d990a3e3c068" width="49%" alt="Quantum Tunneling Preview" />
+</p>
 
 ---
 
-## 🛠️ Tech Stack & Setup
+## 🛠️ Tech Stack
 
-* **Frontend:** Vanilla JavaScript (ES6+), HTML5 Canvas, CSS3.
-* **Physics Modeling:** Finite Difference Methods for Schrödinger Equation.
-* **Deployment:** GitHub Pages.
-
-**Quick Start:**
-1. Clone the repository: `git clone https://github.com/emineugurlu/double-slit-simulation.git`
-2. Open `index.html` in any modern web browser.
-3. Access the Live Demo [here](https://emineugurlu.github.io/double-slit-simulation/).
+* **Language:** Vanilla JavaScript (ES6+).
+* **Rendering:** HTML5 Canvas API.
+* **Physics Engine:** Numerical Finite Difference Methods.
+* **Styling:** CSS3 (Modern Flexbox/Grid).
 
 ---
 
-## 📦 CI/CD & Roadmap
+## ⚙️ Quick Start
 
-### **v1.0.0 — Quantum Foundation ⚛️✨**
-> This release establishes the core simulation engine, including the Double-Slit experiment and Quantum Tunneling modules. It features optimized canvas rendering and numerical solvers for probability amplitude calculations. Quantum mechanics is no longer just a theory.
-
-**What's Next:**
-* 🔜 Schrödinger's Equation: Energy levels in potential wells.
-* 🔜 Quantum Confinement & Standing Waves.
-
----
-
-Developed by **Emine Uğurlu - Computer Engineer**
-*Visualizing the invisible through the power of code.*
+1. **Clone the Repository:**
+ ```bash
+  git clone [https://github.com/emineugurlu/double-slit-simulation.git](https://github.com/emineugurlu/double-slit-simulation.git)
+  cd double-slit-simulation
