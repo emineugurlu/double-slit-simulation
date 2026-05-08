@@ -60,7 +60,7 @@ This project showcases advanced computational physics and an optimized visualiza
  ```bash
   git clone [https://github.com/emineugurlu/double-slit-simulation.git](https://github.com/emineugurlu/double-slit-simulation.git)
   cd double-slit-simulation
-````
+  ````
 2 **Run the Project:**
 
 Simply open index.html in any modern web browser. Alternatively, access the live demo here: Live Demo
